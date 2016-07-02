@@ -1,11 +1,57 @@
 import Vapor
 import VaporSSL
 
+import libc
+
+extension UInt32 {
+    static func random() -> UInt32 {
+        let max = UInt32.max
+        #if os(Linux)
+            let val = UInt32(libc.random() % Int(max))
+        #else
+            let val = UInt32(arc4random_uniform(max))
+        #endif
+        return val
+    }
+}
+
 extension JSON {
-    static func parse(_ str: String) throws -> JSON {
+    // Do not rename `parse`, it will interfere w/ a property declaration
+    static func parseString(_ str: String) throws -> JSON {
         return try JSON.parse(Array(str.utf8))
     }
 }
+
+struct SlackMessage {
+    let id: UInt32
+    let channel: String
+    let text: String
+
+    init(to channel: String, text: String) {
+        self.id = UInt32.random()
+        self.channel = channel
+        self.text = text
+    }
+}
+
+extension WebSocket {
+    func send(_ json: JSON) throws {
+        let message = try JSON.serialize(json).string
+        try send(message)
+    }
+}
+
+extension WebSocket {
+    func send(_ message: SlackMessage) throws {
+        var response: JSON = [:]
+        response["id"] = JSON(message.id)
+        response["type"] = JSON("message")
+        response["channel"] = JSON(message.channel)
+        response["text"] = JSON(message.text)
+        try send(response)
+    }
+}
+
 
 #if os(Linux)
 let workDir = "./"
@@ -36,8 +82,17 @@ try WebSocket.connect(to: webSocketURL, using: HTTPClient<SSLClientStream>.self)
     print("Connected to \(webSocketURL)")
 
     ws.onText = { ws, text in
-        let event = try JSON.parse(text)
+        let event = try JSON.parseString(text)
         print("[event] - \(event)")
+        guard
+            let channel = event["channel"].string,
+            let text = event["text"].string
+            where
+                text.hasPrefix("hello")
+            else { return }
+
+        let response = SlackMessage(to: channel, text: "Hi there 👋")
+        try ws.send(response)
     }
 
     ws.onClose = { ws, _, _, _ in
