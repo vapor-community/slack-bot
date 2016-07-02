@@ -1,6 +1,6 @@
 import XCTest
-@testable import slack-botTestSuite
+@testable import SlackBotTestSuite
 
 XCTMain([
-     testCase(slack-botTests.allTests),
+     testCase(SlackBotTests.allTests),
 ])
