@@ -1,7 +1,7 @@
 import Vapor
-import VaporSSL
+import VaporTLS
 
-extension HTTPClient where ClientStreamType: SSLClientStream {
+extension HTTPClient where ClientStreamType: TLSClientStream {
     static func loadRealtimeApi(token: String, simpleLatest: Bool = true, noUnreads: Bool = true) throws -> HTTPResponse {
         let headers: Headers = ["Accept": "application/json; charset=utf-8"]
         let query: [String: StructuredDataRepresentable] = [

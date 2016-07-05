@@ -1,13 +1,13 @@
 import Vapor
-import VaporSSL
+import VaporTLS
 
-let config = Config(workingDirectory: workingDirectory)
+let config = try Config(workingDirectory: workingDirectory)
 guard let token = config["bot-config", "token"].string else { throw BotError.missingConfig }
 
 let rtmResponse = try HTTPClient.loadRealtimeApi(token: token)
 guard let webSocketURL = rtmResponse.data["url"].string else { throw BotError.invalidResponse }
 
-try WebSocket.connect(to: webSocketURL, using: HTTPClient<SSLClientStream>.self) { ws in
+try WebSocket.connect(to: webSocketURL, using: HTTPClient<TLSClientStream>.self) { ws in
     print("Connected to \(webSocketURL)")
 
     ws.onText = { ws, text in

@@ -8,11 +8,9 @@ You can come say hello to this bot running on heroku in our slack as myrtle: htt
 
 | Xcode | Swift Version |
 |:-:|:-:|
-| 7.3 | DEVELOPMENT-SNAPSHOT-2016-06-06-a |
+| 8 | DEVELOPMENT-SNAPSHOT-2016-06-20-a |
 
 Setup Xcode by running `swift package generate-xcodeproj`
-
-> NOTE: If you get errors running this command, it's likely because Xcode 8 is installed, run the following command: `xcode-select -s /Applications/Xcode.app/`. We will support Xcode 8 on next release.
 
 #### Bot Token
 
