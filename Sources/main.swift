@@ -1,6 +1,8 @@
 import Vapor
 import VaporTLS
 
+let VERSION = "0.1.0"
+
 let config = try Config(workingDirectory: workingDirectory)
 guard let token = config["bot-config", "token"].string else { throw BotError.missingConfig }
 
@@ -16,12 +18,15 @@ try WebSocket.connect(to: webSocketURL, using: HTTPClient<TLSClientStream>.self)
         guard
             let channel = event["channel"].string,
             let text = event["text"].string
-            where
-                text.hasPrefix("hello")
             else { return }
 
-        let response = SlackMessage(to: channel, text: "Hi there 👋")
-        try ws.send(response)
+        if text.hasPrefix("hello") {
+            let response = SlackMessage(to: channel, text: "Hi there 👋")
+            try ws.send(response)
+        } else if text.hasPrefix("version") {
+            let response = SlackMessage(to: channel, text: "Current Version: \(VERSION)")
+            try ws.send(response)
+        }
     }
 
     ws.onClose = { ws, _, _, _ in
