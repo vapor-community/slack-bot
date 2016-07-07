@@ -6,7 +6,7 @@
   "keywords": ["swift", "vapor", "slack"],
   "env": {
     "BOT_TOKEN": {
-      "description": "Your slackbot's token. Visit: https://<#your-team#>.slack.com/apps/A0F7YS25R-bots",
+      "description": "Your slackbot's token. Requires admin status. Visit: https://<#your-team#>.slack.com/apps/A0F7YS25R-bots",
       "required": true
     }
   },

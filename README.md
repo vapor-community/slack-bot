@@ -4,7 +4,17 @@ You'll probably want to start w/ the slack documentation: https://api.slack.com/
 
 You can come say hello to this bot running on heroku in our slack as myrtle: http://slack.qutheory.io/
 
-### Environment
+## 🦄 Deploy
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+#### ⚠️ Note
+
+Heroku won't automatically scale dynos for your bot. After the build is complete, you'll need to start the process.
+
+![start heroku bot process](/heroku-start-bot.gif)
+
+## 🚦 Environment
 
 | Xcode | Swift Version |
 |:-:|:-:|
@@ -12,7 +22,7 @@ You can come say hello to this bot running on heroku in our slack as myrtle: htt
 
 Setup Xcode by running `swift package generate-xcodeproj`
 
-#### Bot Token
+### 🔑 Bot Token
 
 Once you have setup your bot-token, create a folder named `Config` and place a file `bot-config.json` in it. The green check marks are because I sync w/ Dropbox, they can be ignored.
 
@@ -26,21 +36,17 @@ Your `bot-config.json` file should look like this (replace your token)
 }
 ```
 
-### Run
+## 🏃 Run
 
 Once the environment is configured, as above, your bot should run in Xcode. Direct message your bot in slack w/ a `hello` prefix and there will be a hello response.
 
-### Ready to Deploy
+## 🛠 Manually Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-#### Create Heroku App
-
-Create your app on Heroku.com
+If you'd prefer to build to Heroku manually
 
 #### Config Token
 
-Add your secret token:
+Add your secret token (or through Heroku WebSite):
 
 ```
 heroku config:set BOT_TOKEN=<#your-token-here#>
@@ -51,6 +57,10 @@ heroku config:set BOT_TOKEN=<#your-token-here#>
 ```
 heroku buildpacks:set https://github.com/kylef/heroku-buildpack-swift
 ```
+
+#### Procfile
+
+Already included in project, should be `worker` type.
 
 #### Push To Heroku
 
