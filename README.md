@@ -30,9 +30,9 @@ Your `bot-config.json` file should look like this (replace your token)
 
 Once the environment is configured, as above, your bot should run in Xcode. Direct message your bot in slack w/ a `hello` prefix and there will be a hello response.
 
-### Heroku
+### Ready to Deploy
 
-This bot is currently running on heroku. It has a Procfile and is ready to setup.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 #### Create Heroku App
 
