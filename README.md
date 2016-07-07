@@ -34,13 +34,13 @@ Once the environment is configured, as above, your bot should run in Xcode. Dire
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-#### Create Heroku App
+### Manually Deploy
 
-Create your app on Heroku.com
+If you'd prefer to build to Heroku manually
 
 #### Config Token
 
-Add your secret token:
+Add your secret token (or through Heroku WebSite):
 
 ```
 heroku config:set BOT_TOKEN=<#your-token-here#>
@@ -51,6 +51,10 @@ heroku config:set BOT_TOKEN=<#your-token-here#>
 ```
 heroku buildpacks:set https://github.com/kylef/heroku-buildpack-swift
 ```
+
+#### Procfile
+
+Already included in project, should be `worker` type.
 
 #### Push To Heroku
 
