@@ -1,4 +1,4 @@
-enum BotError: ErrorProtocol {
+enum BotError: Swift.Error {
     /*:
      Expect file in `Config/bot-config.json` that looks like the following
 

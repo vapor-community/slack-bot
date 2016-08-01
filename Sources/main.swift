@@ -1,23 +1,26 @@
+import HTTP
+
 import Vapor
 import VaporTLS
 
-let VERSION = "0.1.0"
+let VERSION = "0.2.0"
 
 let config = try Config(workingDirectory: workingDirectory)
 guard let token = config["bot-config", "token"].string else { throw BotError.missingConfig }
 
-let rtmResponse = try HTTPClient.loadRealtimeApi(token: token)
+let rtmResponse = try Client.loadRealtimeApi(token: token)
 guard let webSocketURL = rtmResponse.data["url"].string else { throw BotError.invalidResponse }
 
-try WebSocket.connect(to: webSocketURL, using: HTTPClient<TLSClientStream>.self) { ws in
+try WebSocket.connect(to: webSocketURL, using: Client<TLSClientStream>.self) { ws in
     print("Connected to \(webSocketURL)")
 
     ws.onText = { ws, text in
-        let event = try JSON.parseString(text)
-        print("[event] - \(event)")
+        print("[event] - \(text)")
+
+        let event = try JSON(bytes: text.utf8.array)
         guard
-            let channel = event["channel"].string,
-            let text = event["text"].string
+            let channel = event["channel"]?.string,
+            let text = event["text"]?.string
             else { return }
 
         if text.hasPrefix("hello") {
