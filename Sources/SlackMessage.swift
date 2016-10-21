@@ -13,13 +13,9 @@ struct SlackMessage {
 }
 
 extension SlackMessage: NodeRepresentable {
-    func makeNode() throws -> Node {
-        return try Node(node: [
-                "id": id,
-                "channel": channel,
-                "type": "message",
-                "text": text
-            ]
-        )
+    public func makeNode(context: Context) throws -> Node {
+        return try Node(node: ["id": id, "channel": channel,
+                               "type": "message",
+                               "text": text])
     }
 }
