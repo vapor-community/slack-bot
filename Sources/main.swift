@@ -4,7 +4,7 @@ import Vapor
 let VERSION = "0.3.0"
 setupClient()
 
-let config = try Config(prioritized: [.directory(root: workingDirectory + "Config/")])
+let config = try Config(prioritized: [.commandLine, .directory(root: workingDirectory + "Config/")])
 guard let token = config["bot-config", "token"]?.string else { throw BotError.missingConfig }
 
 let rtmResponse = try BasicClient.loadRealtimeApi(token: token)
